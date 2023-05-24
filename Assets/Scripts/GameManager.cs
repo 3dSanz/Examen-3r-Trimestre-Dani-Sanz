@@ -9,11 +9,15 @@ public class GameManager : MonoBehaviour
 
     public Text coinText;
     int coins;
+    public List<GameObject> enemiesInScreen = new List<GameObject>();
 
 
     void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            KillWindowEnemies();
+        }
     }
 
     public void GameOver()
@@ -25,5 +29,13 @@ public class GameManager : MonoBehaviour
     {
         coins++;
         coinText.text = coins.ToString();
+    }
+
+    void KillWindowEnemies()
+    {
+        for (int i = 0; i < enemiesInScreen.Count; i++)
+        {
+            Destroy(enemiesInScreen[i]);
+        }
     }
 }

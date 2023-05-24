@@ -22,6 +22,10 @@ public class PlayerController : MonoBehaviour
     GameManager gameManager;
     SFXManager sfxManager;
 
+    public Animator anim;
+    public GameObject disparoPrefab;
+    public Transform disparoSpawn;
+
     void Awake()
     {
         //Asignamos la variables del SpriteRender con el componente que tiene este objeto
@@ -33,6 +37,7 @@ public class PlayerController : MonoBehaviour
         //Buscamos el objeto del GameManager y SFXManager lo asignamos a las variables
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         sfxManager = GameObject.Find("SFXManager").GetComponent<SFXManager>();
+        anim = GetComponent<Animator>();
 
 
         
@@ -48,11 +53,16 @@ public class PlayerController : MonoBehaviour
             if(horizontal < 0)
             {
                 transform.rotation = Quaternion.Euler(0, 180, 0);
+                anim.SetBool("IsRunning", true);
             }
             else if(horizontal > 0)
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
-            }
+                anim.SetBool("IsRunning", true);
+            }else
+                {
+                    anim.SetBool("IsRunning", false);
+                }
 
 
 
@@ -61,7 +71,12 @@ public class PlayerController : MonoBehaviour
             {
                 rBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
-        }    
+
+            if(Input.GetKeyDown(KeyCode.K))
+            {
+                 Instantiate(disparoPrefab, disparoSpawn.position, disparoSpawn.rotation);
+            }   
+        }   
         
     }
 
